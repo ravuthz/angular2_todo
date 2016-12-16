@@ -8,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class TodosComponent implements OnInit {
     todos;
     text;
+    action;
+    oldText;
 
     constructor() { }
 
     ngOnInit() {
+        this.action = 'add';
         this.todos = [
             {text: 'todo one'},
             {text: 'todo two'},
@@ -23,7 +26,7 @@ export class TodosComponent implements OnInit {
         this.todos.push({
             text: this.text
         });
-        this.text = "";
+        this.text = '';
     }
 
     deleteTodo(todoText) {
@@ -32,6 +35,22 @@ export class TodosComponent implements OnInit {
                 this.todos.splice(i, 1);
             }
         }
+    }
+
+    editTodo(todo) {
+        this.action = 'edit';
+        this.oldText = todo.text;
+        this.text = todo.text;
+    }
+
+    updateTodo(todo) {
+        for(var i=0; i<this.todos.length; i++) {
+            if (this.todos[i].text == this.oldText) {
+                this.todos[i].text = this.text;
+            }
+        }
+        this.text = '';
+        this.action = 'add';
     }
 
 }
